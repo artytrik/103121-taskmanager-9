@@ -1,4 +1,4 @@
-const mainControl = document.querySelector(`.main-control`);
+const mainControl = document.querySelector(`.main__control`);
 
 const getMenu = function () {
   return `<section class="control__btn-wrap">
@@ -455,3 +455,9 @@ const getEditCard = function () {
 const getLoadButton = function () {
   return `<button class="load-more" type="button">load more</button>`;
 };
+
+const renderComponent = (container, layout) => {
+  container.insertAdjacentHTML(`beforeend`, layout);
+};
+
+renderComponent(mainControl, getMenu());
