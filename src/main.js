@@ -1,7 +1,7 @@
 const main = document.querySelector(`.main`);
 const mainControl = main.querySelector(`.main__control`);
 
-const getMenu = function () {
+const getMenu = () => {
   return `<section class="control__btn-wrap">
     <input
       type="radio"
@@ -32,7 +32,7 @@ const getMenu = function () {
   </section>`;
 };
 
-const getSearch = function () {
+const getSearch = () => {
   return `<section class="main__search search container">
     <input
       type="text"
@@ -44,7 +44,7 @@ const getSearch = function () {
   </section>`;
 };
 
-const getFilters = function () {
+const getFilters = () => {
   return `<section class="main__filter filter container">
     <input
       type="radio"
@@ -115,7 +115,7 @@ const getFilters = function () {
   </section>`;
 };
 
-const getCardContainer = function () {
+const getCardContainer = () => {
   return `<section class="board container">
     <div class="board__filter-list">
       <a href="#" class="board__filter">SORT BY DEFAULT</a>
@@ -127,7 +127,7 @@ const getCardContainer = function () {
   </section>`;
 };
 
-const getCard = function () {
+const getCard = () => {
   return `<article class="card card--black">
     <div class="card__form">
       <div class="card__inner">
@@ -195,7 +195,7 @@ const getCard = function () {
   </article>`;
 };
 
-const getEditCard = function () {
+const getEditCard = () => {
   return `<article class="card card--edit card--yellow card--repeat">
     <form class="card__form" method="get">
       <div class="card__inner">
@@ -465,12 +465,13 @@ const getEditCard = function () {
   </article>`;
 };
 
-const getLoadButton = function () {
+const getLoadButton = () => {
   return `<button class="load-more" type="button">load more</button>`;
 };
 
-const renderComponent = (container, layout) =>
+const renderComponent = (container, layout) => {
   container.insertAdjacentHTML(`beforeend`, layout);
+};
 
 renderComponent(mainControl, getMenu());
 renderComponent(main, getSearch());
