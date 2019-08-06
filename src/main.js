@@ -1,4 +1,5 @@
-const mainControl = document.querySelector(`.main__control`);
+const main = document.querySelector(`.main`);
+const mainControl = main.querySelector(`.main__control`);
 
 const getMenu = function () {
   return `<section class="control__btn-wrap">
@@ -111,6 +112,18 @@ const getFilters = function () {
     <label for="filter__archive" class="filter__label"
       >Archive <span class="filter__archive-count">115</span></label
     >
+  </section>`;
+};
+
+const getCardContainer = function () {
+  return `<section class="board container">
+    <div class="board__filter-list">
+      <a href="#" class="board__filter">SORT BY DEFAULT</a>
+      <a href="#" class="board__filter">SORT BY DATE up</a>
+      <a href="#" class="board__filter">SORT BY DATE down</a>
+    </div>
+    <div class="board__tasks">
+    </div>
   </section>`;
 };
 
@@ -456,8 +469,19 @@ const getLoadButton = function () {
   return `<button class="load-more" type="button">load more</button>`;
 };
 
-const renderComponent = (container, layout) => {
+const renderComponent = (container, layout) =>
   container.insertAdjacentHTML(`beforeend`, layout);
-};
 
 renderComponent(mainControl, getMenu());
+renderComponent(main, getSearch());
+renderComponent(main, getFilters());
+renderComponent(main, getCardContainer());
+
+const board = main.querySelector(`.board`);
+const boardTasks = board.querySelector(`.board__tasks`);
+
+renderComponent(boardTasks, getEditCard());
+renderComponent(boardTasks, getCard());
+renderComponent(boardTasks, getCard());
+renderComponent(boardTasks, getCard());
+renderComponent(board, getLoadButton());
