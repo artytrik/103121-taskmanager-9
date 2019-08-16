@@ -2,10 +2,12 @@ import {getMenu} from './components/menu.js';
 import {getSearch} from './components/search.js';
 import {getFilters} from './components/filters.js';
 import {getCardContainer} from './components/card-container.js';
-import {getCard} from './components/card.js';
+import {makeCard} from './components/card.js';
 import {getEditCard} from './components/edit-card.js';
 import {getLoadButton} from './components/load-button.js';
+import {getCard} from './components/data.js';
 
+const CARD_COUNT = 3;
 const main = document.querySelector(`.main`);
 const mainControl = main.querySelector(`.main__control`);
 
@@ -22,7 +24,7 @@ const board = main.querySelector(`.board`);
 const boardTasks = board.querySelector(`.board__tasks`);
 
 renderComponent(boardTasks, getEditCard());
-renderComponent(boardTasks, getCard());
-renderComponent(boardTasks, getCard());
-renderComponent(boardTasks, getCard());
+
+renderComponent(boardTasks, new Array(CARD_COUNT).fill(``).map(getCard).map(makeCard).join(``));
+
 renderComponent(board, getLoadButton());

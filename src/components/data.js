@@ -1,4 +1,4 @@
-const task = {
+export const getCard = () => ({
   description: [
     `Изучить теорию`,
     `Сделать домашку`,
@@ -30,4 +30,4 @@ const task = {
   ][Math.floor(Math.random() * 5)],
   isFavourite: Boolean(Math.round(Math.random())),
   isArchive: Boolean(Math.round(Math.random())),
-};
+});
