@@ -23,7 +23,7 @@ renderComponent(main, getCardContainer());
 const board = main.querySelector(`.board`);
 const boardTasks = board.querySelector(`.board__tasks`);
 
-renderComponent(boardTasks, getEditCard());
+renderComponent(boardTasks, getEditCard(cards[0]));
 
 renderComponent(boardTasks, cards.map(makeCard).join(``));
 
