@@ -39,4 +39,4 @@ export class Menu {
       >
     </section>`;
   }
-};
+}

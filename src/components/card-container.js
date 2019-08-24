@@ -20,4 +20,4 @@ export class CardContainer {
       </div>
     </section>`;
   }
-};
+}
