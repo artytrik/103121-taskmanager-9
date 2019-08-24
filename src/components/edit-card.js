@@ -1,7 +1,7 @@
 export const getEditCard = ({description, dueDate, repeatingDays, color}) => `
-  <article class="card card--edit card--${color} ${Object.keys(repeatingDays).some(day =>
-    repeatingDays[day]) ? `card--repeat` : ``}">
-  <form class="card__form" method="get">
+  <article class="card card--edit card--${color} ${Object.keys(repeatingDays).some((day) =>
+  repeatingDays[day]) ? `card--repeat` : ``}">
+    <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
         <button type="button" class="card__btn card__btn--archive">
