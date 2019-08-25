@@ -4,6 +4,7 @@ import {EmptyResult} from "../components/empty-result.js";
 import {Card} from '../components/card.js';
 import {EditCard} from '../components/edit-card.js';
 import {LoadButton} from '../components/load-button.js';
+import {Sort} from '../components/sort.js';
 import {render} from '../utils.js';
 import {Position} from '../utils.js';
 
@@ -15,10 +16,12 @@ export class BoardController {
     this._taskList = new TaskList();
     this._emptyResult = new EmptyResult();
     this._loadButton = new LoadButton();
+    this._sort = new Sort();
   }
 
   init() {
     render(this._container, this._board.getElement(), Position.BEFOREEND);
+    render(this._board.getElement(), this._sort.getElement(), Position.AFTERBEGIN);
     render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
 
     if (this._tasks.length > 0) {
@@ -27,6 +30,9 @@ export class BoardController {
     } else {
       render(this._board, this._emptyResult.getElement(), Position.BEFOREEND);
     }
+
+    this._sort.getElement()
+      .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
   }
 
   _renderCard(card) {
@@ -65,5 +71,29 @@ export class BoardController {
       });
 
     render(this._taskList.getElement(), task.getElement(), Position.BEFOREEND);
+  }
+
+  _onSortLinkClick(evt) {
+    evt.preventDefault();
+
+    if (evt.target.tagName !== `A`) {
+      return;
+    }
+
+    this._taskList.getElement().innerHTML = ``;
+
+    switch (evt.target.dataset.sortType) {
+      case `date-up`:
+        const sortedByDateUpTasks = this._tasks.slice().sort((a, b) => a.dueDate - b.dueDate);
+        sortedByDateUpTasks.forEach((taskMock) => this._renderCard(taskMock));
+        break;
+      case `date-down`:
+        const sortedByDateDownTasks = this._tasks.slice().sort((a, b) => b.dueDate - a.dueDate);
+        sortedByDateDownTasks.forEach((taskMock) => this._renderCard(taskMock));
+        break;
+      case `default`:
+        this._tasks.forEach((taskMock) => this._renderCard(taskMock));
+        break;
+    }
   }
 }
