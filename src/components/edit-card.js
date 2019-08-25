@@ -20,7 +20,7 @@ export class EditCard {
 
   getTemplate() {
     return `<article class="card card--edit card--${this._color} ${Object.values(this._repeatingDays).some((it) =>
-      it === true) ? `card--repeat` : ``}">
+      it) ? `card--repeat` : ``}">
         <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__control">

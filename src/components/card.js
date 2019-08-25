@@ -20,7 +20,7 @@ export class Card {
 
   getTemplate() {
     return `<article class="card card--${this._color} ${Object.values(this._repeatingDays).some((it) =>
-      it === true) ? `card--repeat` : ``}">
+      it) ? `card--repeat` : ``}">
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
@@ -61,7 +61,7 @@ export class Card {
 
               <div class="card__hashtag">
                 <div class="card__hashtag-list">
-                  ${Array.from(this._tags).slice(Math.floor(Math.random() * 5), Math.floor(Math.random() * 5)).map((tag) => `<span class="card__hashtag-inner">
+                  ${Array.from(this._tags).map((tag) => `<span class="card__hashtag-inner">
                     <span class="card__hashtag-name">
                       #${tag}
                     </span>
