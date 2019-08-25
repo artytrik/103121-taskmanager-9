@@ -50,19 +50,19 @@ export class BoardController {
     taskEdit.getElement().querySelector(`textarea`)
       .addEventListener(`focus`, () => {
         document.removeEventListener(`keydown`, onEscKeyDown);
-      })
+      });
 
     taskEdit.getElement().querySelector(`textarea`)
       .addEventListener(`blur`, () => {
         document.addEventListener(`keydown`, onEscKeyDown);
-      })
+      });
 
     taskEdit.getElement()
       .querySelector(`.card__save`)
       .addEventListener(`click`, () => {
         this._taskList.getElement().replaceChild(task.getElement(), taskEdit.getElement());
         document.removeEventListener(`keydown`, onEscKeyDown);
-      })
+      });
 
     render(this._taskList.getElement(), task.getElement(), Position.BEFOREEND);
   }
