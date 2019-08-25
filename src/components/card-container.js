@@ -1,12 +1,8 @@
-import {createElement} from '../utils.js';
+import {AbstractComponent} from './abstract-component.js';
 
-export class CardContainer {
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+export class CardContainer extends AbstractComponent {
+  constructor () {
+    super();
   }
 
   getTemplate() {
