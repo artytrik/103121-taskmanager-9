@@ -9,6 +9,7 @@ import {cards} from './data.js';
 import {filters} from './data.js';
 import {render} from './utils.js';
 import {Position} from './utils.js';
+import { EmptyResult } from './components/empty-result.js';
 
 const main = document.querySelector(`.main`);
 const mainControl = main.querySelector(`.main__control`);
@@ -18,6 +19,7 @@ const cardContainer = new CardContainer();
 const menu = new Menu();
 const loadButton = new LoadButton();
 const search = new Search();
+const emptyResult = new EmptyResult();
 
 render(mainControl, menu.getElement(), Position.BEFOREEND);
 render(main, search.getElement(), Position.BEFOREEND);
@@ -66,6 +68,11 @@ const renderCard = (card) => {
   render(boardTasks, task.getElement(), Position.BEFOREEND);
 };
 
-cards.forEach((card) => renderCard(card));
+if (cards.length > 0) {
+  cards.forEach((card) => renderCard(card));
+} else {
+  render(boardTasks, emptyResult.getElement(), Position.BEFOREEND);
+}
+
 
 render(board, loadButton.getElement(), Position.BEFOREEND);
