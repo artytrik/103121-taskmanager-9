@@ -1,6 +1,23 @@
-export const makeFilters = (filters) => (
-  `<section class="main__filter filter container">
-    ${filters.map(({title, count}) => `<input
+import {createElement} from '../utils.js';
+
+export class Filter {
+  constructor(filters) {
+    this._filters = filters;
+    this._element = null;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  getTemplate() {
+    return `<section class="main__filter filter container">
+    ${this._filters.map(({title, count}) =>
+    `<input
       type="radio"
       id="filter__${title}"
       class="filter__input visually-hidden"
@@ -8,8 +25,7 @@ export const makeFilters = (filters) => (
       checked
     />
     <label for="filter__${title}" class="filter__label">
-      ${title} <span class="filter__${title}-count">${count}</span></label>`)
-    .join(``)}
-  </section>`
-);
-
+      ${title} <span class="filter__${title}-count">${count}</span></label>`).join(``)}
+    </section>`;
+  }
+}

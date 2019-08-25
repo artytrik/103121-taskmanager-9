@@ -1,8 +1,8 @@
-import {getOverdueFilterCount} from './util.js';
-import {getTodayFilterCount} from './util.js';
-import {getFavouritesFilterCount} from './util.js';
-import {getArchiveFilterCount} from './util.js';
-import {getRepeatingFilterCount} from './util.js';
+import {getOverdueFilterCount} from './utils.js';
+import {getTodayFilterCount} from './utils.js';
+import {getFavouritesFilterCount} from './utils.js';
+import {getArchiveFilterCount} from './utils.js';
+import {getRepeatingFilterCount} from './utils.js';
 
 const filterNames = [`all`, `overdue`, `today`, `favourites`, `repeating`, `tags`, `archive`];
 
