@@ -6,7 +6,7 @@ import {getRepeatingFilterCount} from './utils.js';
 
 const filterNames = [`all`, `overdue`, `today`, `favourites`, `repeating`, `tags`, `archive`];
 
-const CARD_COUNT = 0;
+const CARD_COUNT = 8;
 
 export const getCard = () => ({
   description: [
