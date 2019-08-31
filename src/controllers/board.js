@@ -6,6 +6,7 @@ import {EditCard} from '../components/edit-card.js';
 import {LoadButton} from '../components/load-button.js';
 import {Sort} from '../components/sort.js';
 import {render} from '../utils.js';
+import {unrender} from '../utils.js';
 import {Position} from '../utils.js';
 
 export class BoardController {
@@ -33,6 +34,14 @@ export class BoardController {
 
     this._sort.getElement()
       .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
+  }
+
+  _renderBoard(tasks) {
+    unrender(this._taskList.getElement());
+
+    this._taskList.removeElement();
+    render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
+    tasks.forEach((task) => this._renderCard(task));
   }
 
   _renderCard(card) {
@@ -65,8 +74,34 @@ export class BoardController {
 
     taskEdit.getElement()
       .querySelector(`.card__save`)
-      .addEventListener(`click`, () => {
-        this._taskList.getElement().replaceChild(task.getElement(), taskEdit.getElement());
+      .addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+
+        const formData = new FormData(taskEdit.getElement().querySelector(`.card__form`));
+
+        const entry = {
+          description: formData.get(`text`),
+          color: formData.get(`color`),
+          tags: new Set(formData.getAll(`hashtag`)),
+          dueDate: new Date(formData.get(`date`)),
+          repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
+            acc[it] = true;
+            return acc;
+          }, {
+            'mo': false,
+            'tu': false,
+            'we': false,
+            'th': false,
+            'fr': false,
+            'sa': false,
+            'su': false,
+          })
+        }
+
+        this._tasks[this._tasks.findIndex((it) => it === task)] = entry;
+
+        this._renderBoard(this._tasks);
+
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
 
