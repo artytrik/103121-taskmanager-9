@@ -40,7 +40,7 @@ export class BoardController {
     unrender(this._taskList.getElement());
 
     this._taskList.removeElement();
-    render(this._board.getElement(), this._taskList.getElement(), Position.BEFOREEND);
+    render(this._sort.getElement(), this._taskList.getElement(), Position.AFTEREND);
     tasks.forEach((task) => this._renderCard(task));
   }
 
@@ -96,9 +96,9 @@ export class BoardController {
             'sa': false,
             'su': false,
           })
-        }
+        };
 
-        this._tasks[this._tasks.findIndex((it) => it === task)] = entry;
+        this._tasks[this._tasks.findIndex((it) => it === card)] = entry;
 
         this._renderBoard(this._tasks);
 
