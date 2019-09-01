@@ -1,6 +1,12 @@
 export const Position = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
+};
+
+export const Key = {
+  ESCAPE_IE: `Escape`,
+  ESCAPE: `Esc`,
 };
 
 export const createElement = (template) => {
@@ -16,6 +22,9 @@ export const render = (container, element, place) => {
       break;
     case Position.BEFOREEND:
       container.append(element);
+      break;
+    case Position.AFTEREND:
+      container.after(element);
       break;
   }
 };
