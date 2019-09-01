@@ -253,26 +253,26 @@ export class EditCard extends AbstractComponent {
   }
 
   _subscribeOnEvents() {
-		this.getElement()
-			.querySelector(`.card__hashtag-input`).addEventListener(`keydown`, (evt) => {
-			if (evt.key === `Enter`) {
-				evt.preventDefault();
-				this.getElement().querySelector(`.card__hashtag-list`).insertAdjacentHTML(`beforeend`, `<span class="card__hashtag-inner">
-            <input
-              type="hidden"
-              name="hashtag"
-              value="${evt.target.value}"
-              class="card__hashtag-hidden-input"
-            />
-            <p class="card__hashtag-name">
-              #${evt.target.value}
-            </p>
-            <button type="button" class="card__hashtag-delete">
-              delete
-            </button>
-          </span>`);
-				evt.target.value = ``;
-			}
-    });
+    this.getElement()
+      .querySelector(`.card__hashtag-input`).addEventListener(`keydown`, (evt) => {
+        if (evt.key === `Enter`) {
+          evt.preventDefault();
+          this.getElement().querySelector(`.card__hashtag-list`).insertAdjacentHTML(`beforeend`, `<span class="card__hashtag-inner">
+              <input
+                type="hidden"
+                name="hashtag"
+                value="${evt.target.value}"
+                class="card__hashtag-hidden-input"
+              />
+              <p class="card__hashtag-name">
+                #${evt.target.value}
+              </p>
+              <button type="button" class="card__hashtag-delete">
+                delete
+              </button>
+            </span>`);
+          evt.target.value = ``;
+        }
+      });
   }
 }

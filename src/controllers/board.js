@@ -19,8 +19,8 @@ export class BoardController {
     this._sort = new Sort();
 
     this._subscriptions = [];
-		this._onChangeView = this._onChangeView.bind(this);
-		this._onDataChange = this._onDataChange.bind(this);
+    this._onChangeView = this._onChangeView.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
 
   init() {
