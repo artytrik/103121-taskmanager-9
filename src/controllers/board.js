@@ -8,6 +8,7 @@ import {unrender} from '../utils.js';
 import {Position} from '../utils.js';
 import {TaskController} from './task.js';
 
+const TASKS_IN_ROW = 4;
 export class BoardController {
   constructor(container, tasks) {
     this._container = container;
@@ -17,6 +18,7 @@ export class BoardController {
     this._emptyResult = new EmptyResult();
     this._loadButton = new LoadButton();
     this._sort = new Sort();
+    this._showedTasks = TASKS_IN_ROW;
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);
@@ -30,21 +32,34 @@ export class BoardController {
 
     if (this._tasks.length > 0) {
       render(this._board.getElement(), this._loadButton.getElement(), Position.BEFOREEND);
-      this._tasks.forEach((task) => this._renderCard(task));
+      this._tasks.slice(0, TASKS_IN_ROW).forEach((task) => this._renderCard(task));
     } else {
       render(this._board, this._emptyResult.getElement(), Position.BEFOREEND);
     }
+
+    this._loadButton.getElement()
+      .addEventListener(`click`, () => this._onLoadButtonClick());
 
     this._sort.getElement()
       .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
   }
 
-  _renderBoard(tasks) {
+  hide() {
+    this._board.getElement().classList.add(`visually-hidden`);
+  }
+
+  show() {
+    this._board.getElement().classList.remove(`visually-hidden`);
+  }
+
+  _renderBoard() {
     unrender(this._taskList.getElement());
 
     this._taskList.removeElement();
     render(this._sort.getElement(), this._taskList.getElement(), Position.AFTEREND);
-    tasks.forEach((task) => this._renderCard(task));
+    this._tasks.slice(0, TASKS_IN_ROW).forEach((task) => this._renderCard(task));
+    this._loadButton.getElement()
+      .addEventListener(`click`, () => this._onLoadButtonClick());
   }
 
   _renderCard(task) {
@@ -60,6 +75,18 @@ export class BoardController {
     this._tasks[this._tasks.findIndex((it) => it === oldData)] = newData;
 
     this._renderBoard(this._tasks);
+  }
+
+  _onLoadButtonClick() {
+    this._tasks.slice(this._showedTasks, this._showedTasks + TASKS_IN_ROW)
+      .forEach((task) => this._renderCard(task));
+
+    this._showedTasks += TASKS_IN_ROW;
+
+    if (this._showedTasks >= this._tasks.length) {
+      unrender(this._loadButton.getElement());
+      this._loadButton.removeElement();
+    }
   }
 
   _onSortLinkClick(evt) {
