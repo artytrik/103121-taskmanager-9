@@ -10,8 +10,9 @@ import {TaskListController} from './task-list.js';
 
 const TASKS_IN_ROW = 4;
 export class BoardController {
-  constructor(container, tasks) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChangeMain = onDataChange;
     this._tasks = [];
     this._board = new Board();
     this._taskList = new TaskList();
@@ -72,13 +73,14 @@ export class BoardController {
 
   _onDataChange(tasks) {
     this._tasks = tasks;
+    this._onDataChangeMain(this._tasks);
 
     this._renderBoard();
   }
 
   _onLoadButtonClick() {
     this._taskListController.addTasks(this._tasks.slice(this._showedTasks,
-      this._showedTasks + TASKS_IN_ROW));
+        this._showedTasks + TASKS_IN_ROW));
 
     this._showedTasks += TASKS_IN_ROW;
 
@@ -104,7 +106,7 @@ export class BoardController {
         break;
       case `date-down`:
         const sortedByDateDownTasks = this._tasks.slice().sort((a, b) => b.dueDate - a.dueDate);
-        this._taskListController.setTasks(sortedByDateDownTasks)
+        this._taskListController.setTasks(sortedByDateDownTasks);
         break;
       case `default`:
         this._taskListController.setTasks(this._tasks);

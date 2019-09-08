@@ -40,12 +40,12 @@ export class TaskListController {
       isArchive: false
     };
     this._creatingTask = new TaskController(this._container, defaultTask, TaskControllerMode.ADDING,
-      this._onChangeView, this._onDataChange);
+        this._onChangeView, this._onDataChange);
   }
 
   _renderTask(task) {
     const taskController = new TaskController(this._container, task, TaskControllerMode.DEFAULT,
-      this._onDataChange, this._onChangeView);
+        this._onDataChange, this._onChangeView);
     this._subscriptions.push(taskController.setDefaultView.bind(taskController));
   }
 
@@ -54,7 +54,7 @@ export class TaskListController {
   }
 
   _onDataChange(newData, oldData) {
-    const index = this._tasks.findIndex((it) => it === oldData)
+    const index = this._tasks.findIndex((it) => it === oldData);
 
     if (newData === null) {
       this._tasks = [...this._tasks.slice(0, index), ...this._tasks.slice(index + 1)];
@@ -66,6 +66,8 @@ export class TaskListController {
       this._tasks[index] = newData;
     }
 
-    this._renderBoard(this._tasks);
+    this.setTasks(this._tasks);
+
+    this._onDataChangeMain(this._tasks);
   }
 }

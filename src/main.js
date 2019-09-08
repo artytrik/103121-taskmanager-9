@@ -2,22 +2,28 @@ import {Menu} from './components/menu.js';
 import {Search} from './components/search.js';
 import {Filter} from './components/filters.js';
 import {Statistics} from './components/statistics.js';
-import {filters} from './data.js';
-import {cards} from './data.js';
+import {getFilters} from './data.js';
+import {getCard} from './data.js';
+import {filterNames} from './data.js';
 import {render} from './utils.js';
 import {Position} from './utils.js';
 import {BoardController} from './controllers/board.js';
 import { SearchController } from './controllers/search.js';
 
+const CARD_COUNT = 16;
+
 const main = document.querySelector(`.main`);
 const mainControl = main.querySelector(`.main__control`);
+
+export let cards = new Array(CARD_COUNT).fill(``).map(getCard);
+const filters = filterNames.map(getFilters);
 
 const filter = new Filter(filters);
 const menu = new Menu();
 const search = new Search();
 const statistics = new Statistics();
-const onDataChange = (cards) => {
-  tasks = cards;
+const onDataChange = (tasks) => {
+  cards = tasks;
 }
 statistics.getElement().classList.add(`visually-hidden`);
 

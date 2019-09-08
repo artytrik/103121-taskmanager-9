@@ -3,10 +3,9 @@ import {getTodayFilterCount} from './utils.js';
 import {getFavouritesFilterCount} from './utils.js';
 import {getArchiveFilterCount} from './utils.js';
 import {getRepeatingFilterCount} from './utils.js';
+import {cards} from './main.js';
 
-const filterNames = [`all`, `overdue`, `today`, `favourites`, `repeating`, `tags`, `archive`];
-
-const CARD_COUNT = 16;
+export const filterNames = [`all`, `overdue`, `today`, `favourites`, `repeating`, `tags`, `archive`];
 
 export const getCard = () => ({
   description: [
@@ -63,6 +62,3 @@ const getFilterCount = (name, cards) => {
   return filterValues[name];
 };
 
-export const cards = new Array(CARD_COUNT).fill(``).map(getCard);
-
-export const filters = filterNames.map(getFilters);

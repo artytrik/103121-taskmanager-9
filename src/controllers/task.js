@@ -10,7 +10,7 @@ import 'flatpickr/dist/themes/light.css';
 export const Mode = {
   ADDING: `adding`,
   DEFAULT: `default`
-}
+};
 export class TaskController {
   constructor(container, data, mode, onDataChange, onChangeView) {
     this._container = container;
@@ -43,10 +43,10 @@ export class TaskController {
         if (mode === Mode.DEFAULT) {
           if (this._container.getElement().contains(this._taskEdit.getElement())) {
             this._container.getElement().replaceChild(this._taskView.getElement(),
-            this._taskEdit.getElement());
+                this._taskEdit.getElement());
           }
         } else if (mode === Mode.ADDING) {
-          this._container.getElement().removeChild(currentView.getElement())
+          this._container.getElement().removeChild(currentView.getElement());
         }
 
         document.removeEventListener(`keydown`, onEscKeyDown);
@@ -57,7 +57,7 @@ export class TaskController {
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
         this._onChangeView();
-        this._container.getElement().replaceChild(this._taskEdit.getElement(),
+        this._container.replaceChild(this._taskEdit.getElement(),
             this._taskView.getElement());
         document.addEventListener(`keydown`, onEscKeyDown);
       });
