@@ -6,7 +6,9 @@ import {Sort} from '../components/sort.js';
 import {render} from '../utils.js';
 import {unrender} from '../utils.js';
 import {Position} from '../utils.js';
-import {TaskController} from './task.js';
+import {TaskController, Mode} from './task.js';
+
+const TaskControllerMode = Mode;
 
 const TASKS_IN_ROW = 4;
 export class BoardController {
@@ -18,6 +20,7 @@ export class BoardController {
     this._emptyResult = new EmptyResult();
     this._loadButton = new LoadButton();
     this._sort = new Sort();
+    this._creatingTask = null;
     this._showedTasks = TASKS_IN_ROW;
 
     this._subscriptions = [];
@@ -52,6 +55,24 @@ export class BoardController {
     this._board.getElement().classList.remove(`visually-hidden`);
   }
 
+  createTask() {
+    if (this._creatingTask) {
+      return;
+    }
+
+    const defaultTask = {
+      description: ``,
+      dueDate: new Date(),
+      tags: new Set(),
+      color: [],
+      repeatingDays: {},
+      isFavourite: false,
+      isArchive: false
+    };
+    this._creatingTask = new TaskController(this._taskList, defaultTask, TaskControllerMode.ADDING,
+      this._onChangeView, this._onDataChange);
+  }
+
   _renderBoard() {
     unrender(this._taskList.getElement());
 
@@ -63,7 +84,8 @@ export class BoardController {
   }
 
   _renderCard(task) {
-    const taskController = new TaskController(this._taskList, task, this._onDataChange, this._onChangeView);
+    const taskController = new TaskController(this._taskList, task, TaskControllerMode.DEFAULT,
+      this._onDataChange, this._onChangeView);
     this._subscriptions.push(taskController.setDefaultView.bind(taskController));
   }
 
@@ -72,7 +94,17 @@ export class BoardController {
   }
 
   _onDataChange(newData, oldData) {
-    this._tasks[this._tasks.findIndex((it) => it === oldData)] = newData;
+    const index = this._tasks.findIndex((it) => it === oldData)
+
+    if (newData === null) {
+      this._tasks = [...this._tasks.slice(0, index), ...this._tasks.slice(index + 1)];
+      this._showedTasks = Math.min(this._showedTasks, this._tasks.length);
+    } else if (oldData === null) {
+      this._creatingTask = null;
+      this._tasks = [newData, ...this._tasks];
+    } else {
+      this._tasks[index] = newData;
+    }
 
     this._renderBoard(this._tasks);
   }

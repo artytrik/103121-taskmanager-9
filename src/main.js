@@ -41,6 +41,10 @@ menu.getElement().addEventListener(`change`, (evt) => {
       boardController.hide();
       statistics.getElement().classList.remove(`visually-hidden`);
       break;
+    case `control__new-task`:
+      boardController.createTask();
+      menu.getElement().querySelector(`#control__task`).checked = true;
+      break;
   }
 });
 

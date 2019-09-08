@@ -7,8 +7,12 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import 'flatpickr/dist/themes/light.css';
 
+export const Mode = {
+  ADDING: `adding`,
+  DEFAULT: `default`
+}
 export class TaskController {
-  constructor(container, data, onDataChange, onChangeView) {
+  constructor(container, data, mode, onDataChange, onChangeView) {
     this._container = container;
     this._data = data;
     this._onChangeView = onChangeView;
@@ -16,10 +20,17 @@ export class TaskController {
     this._taskView = new Card(data);
     this._taskEdit = new EditCard(data);
 
-    this.init();
+    this.init(mode);
   }
 
-  init() {
+  init(mode) {
+    let renderPosition = Position.BEFOREEND;
+    let currentView = this._taskView;
+
+    if (mode === Mode.ADDING) {
+      renderPosition = Position.AFTERBEGIN;
+      currentView = this._taskEdit;
+    }
 
     flatpickr(this._taskEdit.getElement().querySelector(`.card__date`), {
       altInput: true,
@@ -29,8 +40,15 @@ export class TaskController {
 
     const onEscKeyDown = (evt) => {
       if (evt.key === Key.ESCAPE || evt.key === Key.ESCAPE_IE) {
-        this._container.getElement().replaceChild(this._taskView.getElement(),
+        if (mode === Mode.DEFAULT) {
+          if (this._container.getElement().contains(this._taskEdit.getElement())) {
+            this._container.getElement().replaceChild(this._taskView.getElement(),
             this._taskEdit.getElement());
+          }
+        } else if (mode === Mode.ADDING) {
+          this._container.getElement().removeChild(currentView.getElement())
+        }
+
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
     };
@@ -66,12 +84,17 @@ export class TaskController {
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
 
-        this._onDataChange(this._getNewData(), this._data);
+        this._onDataChange(this._getNewData(), mode === Mode.DEFAULT ? this._data : null);
 
         document.removeEventListener(`keydown`, onEscKeyDown);
       });
 
-    render(this._container.getElement(), this._taskView.getElement(), Position.BEFOREEND);
+    this._taskEdit.getElement().querySelector(`.card__delete`)
+      .addEventListener(`click`, () => {
+        this._onDataChange(null, this._data);
+      });
+
+    render(this._container.getElement(), currentView.getElement(), renderPosition);
   }
 
   _getNewData() {
