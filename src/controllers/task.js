@@ -93,8 +93,7 @@ export class TaskController {
       .addEventListener(`click`, () => {
         this._onDataChange(null, this._data);
       });
-
-    render(this._container.getElement(), currentView.getElement(), renderPosition);
+    render(this._container, currentView.getElement(), renderPosition);
   }
 
   _getNewData() {
@@ -123,8 +122,8 @@ export class TaskController {
   }
 
   setDefaultView() {
-    if (this._container.getElement().contains(this._taskEdit.getElement())) {
-      this._container.getElement().replaceChild(this._taskView.getElement(), this._taskEdit.getElement());
+    if (this._container.contains(this._taskEdit.getElement())) {
+      this._container.replaceChild(this._taskView.getElement(), this._taskEdit.getElement());
     }
   }
 }

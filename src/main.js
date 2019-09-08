@@ -7,6 +7,7 @@ import {cards} from './data.js';
 import {render} from './utils.js';
 import {Position} from './utils.js';
 import {BoardController} from './controllers/board.js';
+import { SearchController } from './controllers/search.js';
 
 const main = document.querySelector(`.main`);
 const mainControl = main.querySelector(`.main__control`);
@@ -14,8 +15,10 @@ const mainControl = main.querySelector(`.main__control`);
 const filter = new Filter(filters);
 const menu = new Menu();
 const search = new Search();
-const boardController = new BoardController(main, cards);
 const statistics = new Statistics();
+const onDataChange = (cards) => {
+  tasks = cards;
+}
 statistics.getElement().classList.add(`visually-hidden`);
 
 render(mainControl, menu.getElement(), Position.BEFOREEND);
@@ -23,7 +26,17 @@ render(main, search.getElement(), Position.BEFOREEND);
 render(main, filter.getElement(), Position.BEFOREEND);
 render(main, statistics.getElement(), Position.BEFOREEND);
 
-boardController.init();
+const taskListController = new BoardController(main, onDataChange);
+
+const onSearchBackButtonClick = () => {
+  statistics.getElement().classList.add(`visually-hidden`);
+  searchController.hide();
+  taskListController.show(cards);
+}
+
+const searchController = new SearchController(main, search, onSearchBackButtonClick)
+
+taskListController.show(cards);
 
 menu.getElement().addEventListener(`change`, (evt) => {
   evt.preventDefault();
@@ -35,18 +48,27 @@ menu.getElement().addEventListener(`change`, (evt) => {
   switch (evt.target.id) {
     case `control__task`:
       statistics.getElement().classList.add(`visually-hidden`);
-      boardController.show();
+      searchController.hide();
+      taskListController.show(cards);
       break;
     case `control__statistic`:
-      boardController.hide();
+      taskListController.hide();
+      searchController.hide();
       statistics.getElement().classList.remove(`visually-hidden`);
       break;
     case `control__new-task`:
-      boardController.createTask();
+      taskListController.createTask();
+      taskListController.show(cards);
       menu.getElement().querySelector(`#control__task`).checked = true;
       break;
   }
 });
+
+search.getElement().addEventListener(`click`, () => {
+  statistics.getElement().classList.add(`visually-hidden`);
+  taskListController.hide();
+  searchController.show(cards);
+})
 
 
 
